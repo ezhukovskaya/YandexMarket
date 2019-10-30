@@ -8,10 +8,10 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class BrowserDriver {
-    public BrowserDriver() throws IOException {
+    public WebDriver BrowserDriver() throws IOException {
         String browserName = readPropertiesFile();
         BrowserFactory browserFactory = new BrowserFactory();
-        WebDriver driver = browserFactory.getBrowser(browserName);
+        return browserFactory.getBrowser(browserName);
     }
     private static String readPropertiesFile() throws IOException {
         Properties prop = new Properties();

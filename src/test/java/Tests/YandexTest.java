@@ -1,19 +1,18 @@
 package Tests;
 
-import org.openqa.selenium.By;
+import Browser.BrowserDriver;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class YandexTest {
     private WebDriver driver;
-    private WebElement logInButton;
     @BeforeTest
-    public void init(){
-        System.setProperty("webdriver.chrome.driver", "chromedriver");
-        driver = new ChromeDriver();
+    public void init() throws IOException {
+        BrowserDriver initBrowser = new BrowserDriver();
+        driver = initBrowser.BrowserDriver();
     }
     @Test
     public void yandexMarketPageOpen() {
