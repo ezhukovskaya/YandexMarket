@@ -68,13 +68,12 @@ public class MainPage {
         allCat = (ArrayList<WebElement>) driver.findElements(allCategories);
         ArrayList<String> allCatString = new ArrayList<String>();
         FileWriter writer = new FileWriter("file.csv");
-        CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.EXCEL);
+        CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
         for(int i=0;i<allCat.size();i++){
             allCatString.add(allCat.get(i).getText());
-            //writer.write(allCat.get(i).getText()+"\n");
-            csvPrinter.printRecord(allCatString.get(i)+"\n");
-        };
-
+            csvPrinter.printRecord(allCatString.get(i));
+        }
+        csvPrinter.flush();
         return allCatString;
     }
 

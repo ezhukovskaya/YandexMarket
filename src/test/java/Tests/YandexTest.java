@@ -46,6 +46,6 @@ public class YandexTest {
         mainPage.backToMainPage();
         mainPage.goToAllCategories();
         mainPage.copyAllCategories();
-        mainPage.logOutFunction();
+       // mainPage.logOutFunction();
     }
 }
