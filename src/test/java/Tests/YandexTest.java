@@ -1,6 +1,7 @@
 package Tests;
 
 import Browser.BrowserDriver;
+import ConfigRead.UtilsRead;
 import PageObjects.GuestMainPage;
 import PageObjects.LogForm;
 import PageObjects.MainPage;
@@ -19,14 +20,16 @@ public class YandexTest {
     LogForm logForm;
     PasswordForm passwordForm;
     MainPage mainPage;
+    BrowserDriver initBrowser;
     @BeforeTest
     public void init() throws IOException {
-        BrowserDriver initBrowser = new BrowserDriver();
+        initBrowser = new BrowserDriver();
         driver = initBrowser.browserDriver();
         guestMainPage = new GuestMainPage(driver);
         logForm = new LogForm(driver);
         passwordForm = new PasswordForm((driver));
         mainPage = new MainPage(driver);
+
     }
     @Test
     public void yandexMarketPageOpen() throws IOException, InterruptedException {
@@ -39,6 +42,10 @@ public class YandexTest {
         passwordForm.logFormTyping();
         driver.switchTo().window(tabs.get(0));
         mainPage.getCategories();
+        mainPage.goToRandomCategory();
+        mainPage.backToMainPage();
+        mainPage.goToAllCategories();
+        mainPage.copyAllCategories();
         mainPage.logOutFunction();
     }
 }

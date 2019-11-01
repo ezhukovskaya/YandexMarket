@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class BrowserDriver {
     private static BrowserDriver instanceOfSingletonBrowserClass = null;
-    public WebDriver browserDriver() throws IOException {
+    public static WebDriver browserDriver() throws IOException {
         UtilsRead utilsRead = new UtilsRead();
         String browserName = utilsRead.readBrowserFromPropertiesFile();
         BrowserFactory browserFactory = new BrowserFactory();
@@ -17,5 +17,8 @@ public class BrowserDriver {
             instanceOfSingletonBrowserClass = new BrowserDriver();
         }
         return instanceOfSingletonBrowserClass;
+    }
+    public static void goToUrl(String urlAddress) throws IOException {
+        BrowserDriver.browserDriver().get(urlAddress);
     }
 }

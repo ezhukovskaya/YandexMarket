@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.LogManager;
 
 public class UtilsRead {
-    Properties prop = new Properties();
+    private static UtilsRead utilsRead;
+    static Properties prop = new Properties();
 
     public UtilsRead() throws IOException {
         InputStream input = new FileInputStream("config.properties");
@@ -24,5 +26,9 @@ public class UtilsRead {
 
     public String readPasswordFromPropertiesFile(){
         return prop.getProperty("password");
+    }
+
+    public static String readPageNameFromPropertiesFile(){
+        return prop.getProperty("page");
     }
 }
