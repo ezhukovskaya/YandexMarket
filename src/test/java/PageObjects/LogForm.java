@@ -1,6 +1,7 @@
 package PageObjects;
 
-import ConfigRead.UtilsRead;
+import Browser.BrowserDriver;
+import Utils.PropertiesRead;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -9,15 +10,14 @@ import java.io.IOException;
 public class LogForm {
     public By usernameField = By.cssSelector("#passp-field-login");
     public By logInButton = By.cssSelector("button.button2_theme_action:nth-child(1)");
-    UtilsRead utilsRead = new UtilsRead();
-    private WebDriver driver;
+    PropertiesRead propertiesRead = new PropertiesRead();
 
-    public LogForm(WebDriver driver) throws IOException {
-        this.driver = driver;
+    public LogForm() throws IOException {
+        BrowserDriver.getInstanceOfSingletonBrowserClass();
     }
 
-    public void logFormTyping(){
-        driver.findElement(usernameField).sendKeys(utilsRead.readLogFromPropertiesFile());
-        driver.findElement(logInButton).click();
+    public void logFormTyping() throws IOException {
+        BrowserDriver.browserDriver().findElement(usernameField).sendKeys(propertiesRead.readLogFromPropertiesFile());
+        BrowserDriver.browserDriver().findElement(logInButton).click();
     }
 }

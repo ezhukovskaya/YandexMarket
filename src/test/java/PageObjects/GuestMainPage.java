@@ -12,13 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 public class GuestMainPage {
     private By logIn = By.cssSelector(".header2-nav__user > div:nth-child(1) > a:nth-child(1)");
-    private WebDriver driver;
 
-    public GuestMainPage(WebDriver driver){
-        this.driver = driver;
+    public GuestMainPage() throws IOException {
+        BrowserDriver.getInstanceOfSingletonBrowserClass();
     }
 
     public void clickLogInButton() throws IOException {
-        driver.findElement(logIn).click();
+        BrowserDriver.browserDriver().findElement(logIn).click();
     }
 }
