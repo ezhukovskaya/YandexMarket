@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -38,17 +39,17 @@ public class MainPage {
         int j = 2;
         for (int i = 0; i < categories.size(); i++, j++) {
             if (categories.get(i).getText().length() < 2) {
-                i=categories.size();
+                i = categories.size();
             } else {
                 listOfCategories.add(categories.get(j).getText());
             }
         }
-        listOfCategories.trimToSize();
+        listOfCategories.removeAll(Arrays.asList("", null));
         return listOfCategories;
     }
 
     public void goToRandomCategory() throws IOException {
-        categories.get(new Random().ints(2,(categories.size()+1)).findFirst().getAsInt());
+        categories.get(new Random().ints(2, (categories.size() + 1)).findFirst().getAsInt());
         //categories.get(new Random().nextInt(((categories.size()-2)+1)+2)).click();
     }
 

@@ -7,6 +7,7 @@ import PageObjects.MainPage;
 import PageObjects.PasswordForm;
 import Utils.PropertiesRead;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -18,6 +19,7 @@ public class YandexTest {
     LogForm logForm;
     PasswordForm passwordForm;
     MainPage mainPage;
+
     @BeforeTest
     public void init() throws IOException {
         BrowserDriver.getInstanceOfSingletonBrowserClass();
@@ -26,21 +28,24 @@ public class YandexTest {
         passwordForm = new PasswordForm();
         mainPage = new MainPage();
     }
+
     @Test
     public void yandexMarketPageOpen() throws IOException, InterruptedException {
         BrowserDriver.goToUrl();
         BrowserDriver.maximize();
         guestMainPage.clickLogInButton();
         ArrayList<String> tabs = new ArrayList<String>(BrowserDriver.browserDriver().getWindowHandles());
-        BrowserDriver.switchTo(tabs.size()-1, tabs);
+        BrowserDriver.switchTo(tabs.size() - 1, tabs);
         logForm.logFormTyping();
         passwordForm.logFormTyping();
-        BrowserDriver.switchTo(0,tabs);
-        mainPage.getCategories();
+        BrowserDriver.switchTo(0, tabs);
+        ArrayList<String> topCategories = mainPage.getCategories();
         mainPage.goToRandomCategory();
         mainPage.backToMainPage();
         mainPage.goToAllCategories();
-        mainPage.copyAllCategories();
-       // mainPage.logOutFunction();
+        ArrayList<String> allCategories = mainPage.copyAllCategories();
+        allCategories.retainAll(topCategories);
+        Assert.assertEquals(allCategories, topCategories);
+        mainPage.logOutFunction();
     }
 }

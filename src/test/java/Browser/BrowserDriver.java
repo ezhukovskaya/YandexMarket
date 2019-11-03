@@ -2,6 +2,7 @@ package Browser;
 
 import Utils.PropertiesRead;
 import org.openqa.selenium.WebDriver;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,11 +23,12 @@ public class BrowserDriver {
     }
 
     public static BrowserDriver getInstanceOfSingletonBrowserClass() throws IOException {
-        if(instanceOfSingletonBrowserClass == null){
+        if (instanceOfSingletonBrowserClass == null) {
             instanceOfSingletonBrowserClass = new BrowserDriver();
         }
         return instanceOfSingletonBrowserClass;
     }
+
     public static void goToUrl() throws IOException {
         BrowserDriver.browserDriver().get(propertiesRead.readPageNameFromPropertiesFile());
     }

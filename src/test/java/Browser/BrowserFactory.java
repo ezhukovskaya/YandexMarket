@@ -6,12 +6,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BrowserFactory {
-    public WebDriver getBrowser(String browserName){
+    public WebDriver getBrowser(String browserName) {
         browserName = browserName.toLowerCase();
         WebDriver driver = null;
-        if(browserName.equals("chrome"))
+        if (browserName.equals("chrome"))
             driver = getChromeInstance();
-        if(browserName.equals("firefox"))
+        if (browserName.equals("firefox"))
             driver = getFirefoxInstance();
         return driver;
     }
@@ -20,7 +20,8 @@ public class BrowserFactory {
         WebDriverManager.chromedriver().setup();
         return new ChromeDriver();
     }
-    private FirefoxDriver getFirefoxInstance(){
+
+    private FirefoxDriver getFirefoxInstance() {
         WebDriverManager.firefoxdriver().setup();
         return new FirefoxDriver();
     }
