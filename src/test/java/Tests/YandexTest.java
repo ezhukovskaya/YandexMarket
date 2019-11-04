@@ -69,5 +69,6 @@ public class YandexTest {
         mainPage.logOutFunction();
         testLogInAgainButton = waiter.waiterForWebElement(guestMainPage.logIn);
         Assert.assertTrue(testLogInAgainButton.isDisplayed());
+        BrowserDriver.close();
     }
 }

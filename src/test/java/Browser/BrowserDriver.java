@@ -40,4 +40,8 @@ public class BrowserDriver {
     public static void switchTo(int tabNumber, ArrayList<String> tabs) throws IOException {
         BrowserDriver.browserDriver().switchTo().window(tabs.get(tabNumber));
     }
+
+    public static void close() throws IOException {
+        BrowserDriver.browserDriver().close();
+    }
 }
