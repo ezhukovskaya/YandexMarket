@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -20,13 +21,9 @@ public class YandexTest {
     private LogForm logForm;
     private PasswordForm passwordForm;
     private MainPage mainPage;
-    private WebElement testBanner;
-    WebElement testAuthorizedIcon;
-    WebElement testRandom;
-    WebElement testLogInAgainButton;
-    By testRandomPageLocator = By.xpath("/html/body/div[1]/div[2]/div[6]/div/div/div/div/div/h1");
-    By testBannerLocator = By.xpath("/html/body/div[1]/noindex/div/div/div/a/img");
-    WebElementWait waiter;
+    private By testRandomPageLocator = By.xpath("/html/body/div[1]/div[2]/div[6]/div/div/div/div/div/h1");
+    private By testBannerLocator = By.xpath("/html/body/div[1]/noindex/div/div/div/a/img");
+    private WebElementWait waiter;
 
     @BeforeTest
     public void init() throws IOException {
@@ -47,7 +44,7 @@ public class YandexTest {
     public void yandexMarketPageOpen() throws IOException, InterruptedException {
         BrowserDriver.goToUrl();
         BrowserDriver.maximize();
-        testBanner = waiter.waiterForWebElement(testBannerLocator);
+        WebElement testBanner = waiter.waiterForWebElement(testBannerLocator);
         Assert.assertTrue(testBanner.isDisplayed());
         guestMainPage.clickLogInButton();
         ArrayList<String> tabs = new ArrayList<String>(BrowserDriver.browserDriver().getWindowHandles());
@@ -55,11 +52,11 @@ public class YandexTest {
         logForm.logFormTyping();
         passwordForm.logFormTyping();
         BrowserDriver.switchTo(0, tabs);
-        testAuthorizedIcon = waiter.waiterForWebElement(mainPage.accountIcon);
+        WebElement testAuthorizedIcon = waiter.waiterForWebElement(mainPage.accountIcon);
         Assert.assertTrue(testAuthorizedIcon.isDisplayed());
         ArrayList<String> topCategories = mainPage.getCategories();
         mainPage.goToRandomCategory();
-        testRandom = waiter.waiterForWebElement(testRandomPageLocator);
+        WebElement testRandom = waiter.waiterForWebElement(testRandomPageLocator);
         Assert.assertTrue(testRandom.isDisplayed());
         mainPage.backToMainPage();
         mainPage.goToAllCategories();
@@ -67,8 +64,16 @@ public class YandexTest {
         allCategories.retainAll(topCategories);
         Assert.assertEquals(allCategories, topCategories);
         mainPage.logOutFunction();
-        testLogInAgainButton = waiter.waiterForWebElement(guestMainPage.logIn);
+        WebElement testLogInAgainButton = waiter.waiterForWebElement(guestMainPage.logIn);
         Assert.assertTrue(testLogInAgainButton.isDisplayed());
+    }
+
+    /**
+     * закрытие браузера
+     * @throws IOException
+     */
+    @AfterTest
+    public void browserClose() throws IOException {
         BrowserDriver.close();
     }
 }
