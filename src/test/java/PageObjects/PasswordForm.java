@@ -15,10 +15,19 @@ public class PasswordForm {
     public By logInButton = By.xpath("/html/body/div/div/div/div[2]/div/div/div[3]/div[2]/div/div/form/div[2]/button[1]");
     PropertiesRead propertiesRead = new PropertiesRead();
 
+    /**
+     * Инициализация WebDriver в конструкторе
+     * @throws IOException
+     */
     public PasswordForm() throws IOException {
         BrowserDriver.getInstanceOfSingletonBrowserClass();
     }
 
+    /**
+     * метод заполнения поля пароля
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public void logFormTyping() throws InterruptedException, IOException {
         WebElement dynamicElement = (new WebDriverWait(BrowserDriver.browserDriver(), 10)).until(ExpectedConditions.presenceOfElementLocated(passwordField));
         BrowserDriver.browserDriver().findElement(passwordField).sendKeys(propertiesRead.readPasswordFromPropertiesFile());

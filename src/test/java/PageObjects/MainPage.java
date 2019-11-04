@@ -24,13 +24,22 @@ public class MainPage {
     private By allCategoriesButton = By.cssSelector("div.n-w-tab__control");
     private By allCategories = By.cssSelector(".n-w-tabs__vertical-tabs>*");
     private By pathCategories = By.cssSelector(".n-w-tabs__horizontal-tabs>*");
-    private By accountIcon = By.xpath("/html/body/div[1]/div/div[1]/noindex/div/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/div[1]/a/span[1]");
+    public By accountIcon = By.xpath("/html/body/div[1]/div/div[1]/noindex/div/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/div[1]/a/span[1]");
     private ArrayList<WebElement> categories;
 
+    /**
+     * Инициализация WebDriver в конструкторе
+     * @throws IOException
+     */
     public MainPage() throws IOException {
         BrowserDriver.getInstanceOfSingletonBrowserClass();
     }
 
+    /**
+     * метод считывания топ-категорий и возвращение списка эти категорий
+     * @return
+     * @throws IOException
+     */
     public ArrayList<String> getCategories() throws IOException {
         BrowserDriver.browserDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         categories = (ArrayList<WebElement>) BrowserDriver.browserDriver().findElements(pathCategories);
@@ -48,19 +57,35 @@ public class MainPage {
         return listOfCategories;
     }
 
+    /**
+     * метод выбора и нажатия на рандомную категорию
+     * @throws IOException
+     */
     public void goToRandomCategory() throws IOException {
-        categories.get(new Random().ints(2, (categories.size() + 1)).findFirst().getAsInt());
-        //categories.get(new Random().nextInt(((categories.size()-2)+1)+2)).click();
+        categories.get(new Random().nextInt(((categories.size()-2)+1)+2)).click();
     }
 
+    /**
+     * метод возвращения на главную страницу
+     * @throws IOException
+     */
     public void backToMainPage() throws IOException {
         BrowserDriver.browserDriver().findElement(goToMainPage).click();
     }
 
+    /**
+     * метод нажатия на вкладку "Все категории"
+     * @throws IOException
+     */
     public void goToAllCategories() throws IOException {
         BrowserDriver.browserDriver().findElement(allCategoriesButton).click();
     }
 
+    /**
+     * метод записи в файл всех категорий маркета
+     * @return список всех категорий
+     * @throws IOException
+     */
     public ArrayList<String> copyAllCategories() throws IOException {
         ArrayList<WebElement> allCat = (ArrayList<WebElement>) BrowserDriver.browserDriver().findElements(allCategories);
         ArrayList<String> allCatString = new ArrayList<String>();
@@ -72,6 +97,10 @@ public class MainPage {
         return allCatString;
     }
 
+    /**
+     * метод нажатия на иконку аккаунта
+     * @throws IOException
+     */
     public void logOutFunction() throws IOException {
         BrowserDriver.browserDriver().findElement(accountIcon).click();
         LogOutForm logOutForm = new LogOutForm(BrowserDriver.browserDriver());

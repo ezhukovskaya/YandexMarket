@@ -7,6 +7,10 @@ import org.openqa.selenium.WebElement;
 import java.io.IOException;
 
 public class LogInPage extends GuestMainPage {
+    /**
+     * Инициализация WebDriver в конструкторе
+     * @throws IOException
+     */
     public LogInPage() throws IOException {
         BrowserDriver.getInstanceOfSingletonBrowserClass();
     }

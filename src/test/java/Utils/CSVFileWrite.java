@@ -10,6 +10,11 @@ import java.util.ArrayList;
 public class CSVFileWrite {
     private static CSVFileWrite csvFileWrite;
 
+    /**
+     * метод записи всех категорий в файл
+     * @param allCat
+     * @throws IOException
+     */
     public void fileWrite(ArrayList<String> allCat) throws IOException {
         PropertiesRead propertiesRead = new PropertiesRead();
         FileWriter writer = new FileWriter(propertiesRead.readFileRootFromPropertiesFile());

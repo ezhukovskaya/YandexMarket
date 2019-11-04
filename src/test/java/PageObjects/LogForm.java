@@ -12,10 +12,18 @@ public class LogForm {
     public By logInButton = By.cssSelector("button.button2_theme_action:nth-child(1)");
     PropertiesRead propertiesRead = new PropertiesRead();
 
+    /**
+     * Инициализация WebDriver в конструкторе
+     * @throws IOException
+     */
     public LogForm() throws IOException {
         BrowserDriver.getInstanceOfSingletonBrowserClass();
     }
 
+    /**
+     * метод заполнения поля логин
+     * @throws IOException
+     */
     public void logFormTyping() throws IOException {
         BrowserDriver.browserDriver().findElement(usernameField).sendKeys(propertiesRead.readLogFromPropertiesFile());
         BrowserDriver.browserDriver().findElement(logInButton).click();
