@@ -1,4 +1,4 @@
-package Tests;
+package tests;
 
 import browser.Browser;
 import org.openqa.selenium.WebElement;
