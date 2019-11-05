@@ -1,9 +1,8 @@
 package PageObjects;
 
-import Browser.BrowserDriver;
+import Browser.Browser;
 import Utils.PropertiesRead;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,7 +19,7 @@ public class PasswordForm {
      * @throws IOException
      */
     public PasswordForm() throws IOException {
-        BrowserDriver.getInstanceOfSingletonBrowserClass();
+        Browser.getInstanceOfSingletonBrowserClass();
     }
 
     /**
@@ -29,8 +28,8 @@ public class PasswordForm {
      * @throws IOException
      */
     public void logFormTyping() throws InterruptedException, IOException {
-        WebElement dynamicElement = (new WebDriverWait(BrowserDriver.browserDriver(), 10)).until(ExpectedConditions.presenceOfElementLocated(passwordField));
-        BrowserDriver.browserDriver().findElement(passwordField).sendKeys(propertiesRead.readPasswordFromPropertiesFile());
-        BrowserDriver.browserDriver().findElement(logInButton).click();
+        WebElement dynamicElement = (new WebDriverWait(Browser.browserDriver(), 10)).until(ExpectedConditions.presenceOfElementLocated(passwordField));
+        Browser.browserDriver().findElement(passwordField).sendKeys(propertiesRead.readPasswordFromPropertiesFile());
+        Browser.browserDriver().findElement(logInButton).click();
     }
 }

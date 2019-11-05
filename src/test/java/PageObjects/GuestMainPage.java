@@ -1,14 +1,9 @@
 package PageObjects;
 
-import Browser.BrowserDriver;
+import Browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class GuestMainPage {
     public By logIn = By.cssSelector(".header2-nav__user > div:nth-child(1) > a:nth-child(1)");
@@ -18,7 +13,7 @@ public class GuestMainPage {
      * @throws IOException
      */
     public GuestMainPage() throws IOException {
-        BrowserDriver.getInstanceOfSingletonBrowserClass();
+        Browser.getInstanceOfSingletonBrowserClass();
     }
 
     /**
@@ -26,6 +21,6 @@ public class GuestMainPage {
      * @throws IOException
      */
     public void clickLogInButton() throws IOException {
-        BrowserDriver.browserDriver().findElement(logIn).click();
+        Browser.browserDriver().findElement(logIn).click();
     }
 }

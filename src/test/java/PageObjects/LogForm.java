@@ -1,9 +1,8 @@
 package PageObjects;
 
-import Browser.BrowserDriver;
+import Browser.Browser;
 import Utils.PropertiesRead;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 
@@ -17,7 +16,7 @@ public class LogForm {
      * @throws IOException
      */
     public LogForm() throws IOException {
-        BrowserDriver.getInstanceOfSingletonBrowserClass();
+        Browser.getInstanceOfSingletonBrowserClass();
     }
 
     /**
@@ -25,7 +24,7 @@ public class LogForm {
      * @throws IOException
      */
     public void logFormTyping() throws IOException {
-        BrowserDriver.browserDriver().findElement(usernameField).sendKeys(propertiesRead.readLogFromPropertiesFile());
-        BrowserDriver.browserDriver().findElement(logInButton).click();
+        Browser.browserDriver().findElement(usernameField).sendKeys(propertiesRead.readLogFromPropertiesFile());
+        Browser.browserDriver().findElement(logInButton).click();
     }
 }

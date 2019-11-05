@@ -1,21 +1,13 @@
 package PageObjects;
 
-import Browser.BrowserDriver;
+import Browser.Browser;
 import Utils.CSVFileWrite;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +24,7 @@ public class MainPage {
      * @throws IOException
      */
     public MainPage() throws IOException {
-        BrowserDriver.getInstanceOfSingletonBrowserClass();
+        Browser.getInstanceOfSingletonBrowserClass();
     }
 
     /**
@@ -41,8 +33,8 @@ public class MainPage {
      * @throws IOException
      */
     public ArrayList<String> getCategories() throws IOException {
-        BrowserDriver.browserDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        categories = (ArrayList<WebElement>) BrowserDriver.browserDriver().findElements(pathCategories);
+        Browser.browserDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        categories = (ArrayList<WebElement>) Browser.browserDriver().findElements(pathCategories);
         categories.trimToSize();
         ArrayList<String> listOfCategories = new ArrayList<String>();
         int j = 2;
@@ -70,7 +62,7 @@ public class MainPage {
      * @throws IOException
      */
     public void backToMainPage() throws IOException {
-        BrowserDriver.browserDriver().findElement(goToMainPage).click();
+        Browser.browserDriver().findElement(goToMainPage).click();
     }
 
     /**
@@ -78,7 +70,7 @@ public class MainPage {
      * @throws IOException
      */
     public void goToAllCategories() throws IOException {
-        BrowserDriver.browserDriver().findElement(allCategoriesButton).click();
+        Browser.browserDriver().findElement(allCategoriesButton).click();
     }
 
     /**
@@ -87,7 +79,7 @@ public class MainPage {
      * @throws IOException
      */
     public ArrayList<String> copyAllCategories() throws IOException {
-        ArrayList<WebElement> allCat = (ArrayList<WebElement>) BrowserDriver.browserDriver().findElements(allCategories);
+        ArrayList<WebElement> allCat = (ArrayList<WebElement>) Browser.browserDriver().findElements(allCategories);
         ArrayList<String> allCatString = new ArrayList<String>();
         for (WebElement webElement : allCat) {
             allCatString.add(webElement.getText());
@@ -102,8 +94,8 @@ public class MainPage {
      * @throws IOException
      */
     public void logOutFunction() throws IOException {
-        BrowserDriver.browserDriver().findElement(accountIcon).click();
-        LogOutForm logOutForm = new LogOutForm(BrowserDriver.browserDriver());
+        Browser.browserDriver().findElement(accountIcon).click();
+        LogOutForm logOutForm = new LogOutForm(Browser.browserDriver());
     }
 
 }
