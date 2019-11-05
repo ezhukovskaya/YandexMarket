@@ -72,6 +72,7 @@ public class YandexTest {
         WebElementWait.waiterForWebElement(guestMainPage.logIn);
         WebElement testLogInAgainButton = WebElementWait.getWebElement(guestMainPage.logIn);
         Assert.assertTrue(testLogInAgainButton.isDisplayed(),"Не удалось выйти");
+        
     }
 
     /**
