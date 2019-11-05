@@ -10,6 +10,7 @@ import pageObjects.GuestMainPage;
 import pageObjects.LogForm;
 import pageObjects.MainPage;
 import pageObjects.PasswordForm;
+import utils.ExceptionTreat;
 import utils.PropertiesRead;
 import utils.WebElementWait;
 
@@ -39,24 +40,23 @@ public class YandexTest {
 
     /**
      * тестиует сайт market.yandex.ru
-     * @throws InterruptedException
      */
     @Test
-    public void yandexMarketPageOpen() throws InterruptedException {
+    public void yandexMarketPageOpen() {
         WebElementWait.waiterForWebElement(mainPage.getTestBannerLocator());
         WebElement testBanner = WebElementWait.getWebElement(mainPage.getTestBannerLocator());
         Assert.assertTrue(testBanner.isDisplayed(),"Не удалось открыть страницу");
         guestMainPage.clickLogInButton();
         ArrayList<String> tabs = new ArrayList<String>(Browser.getDriver().getWindowHandles());
         Browser.switchTo(tabs.size() - 1, tabs);
-        Thread.sleep(5000);
+        ExceptionTreat.getExceptionTimeoutTreat();
         logForm.enterLogIn(logIn);
-        Thread.sleep(5000);
+        ExceptionTreat.getExceptionTimeoutTreat();
         passwordForm.enterPassword(password);
         Browser.switchTo(0, tabs);
         WebElementWait.waiterForWebElement(mainPage.accountIcon);
         WebElement testAuthorizedIcon = WebElementWait.getWebElement(mainPage.accountIcon);
-        Thread.sleep(5000);
+        ExceptionTreat.getExceptionTimeoutTreat();
         Assert.assertTrue(testAuthorizedIcon.isDisplayed(), "Не удалось авторизоваться");
         ArrayList<String> topCategories = mainPage.getTopCategories();
         mainPage.goToRandomCategory();
@@ -72,7 +72,6 @@ public class YandexTest {
         WebElementWait.waiterForWebElement(guestMainPage.logIn);
         WebElement testLogInAgainButton = WebElementWait.getWebElement(guestMainPage.logIn);
         Assert.assertTrue(testLogInAgainButton.isDisplayed(),"Не удалось выйти");
-        
     }
 
     /**
