@@ -1,40 +1,53 @@
-package PageObjects;
+package pageObjects;
 
-import Browser.Browser;
-import Utils.CSVFileWrite;
+import browser.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import utils.CSVFileWrite;
+import utils.WebElementWait;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class MainPage {
+    private By testRandomPageLocator = By.cssSelector("._39qdPorEKz");
+    private By testBannerLocator = By.cssSelector("._1TFGF7RAta");
+    private String filePath = "src/test/java/resource/file.csv";
     private By goToMainPage = By.xpath("//a[@class='logo logo_type_link logo_part_market']");
     private By allCategoriesButton = By.cssSelector("div.n-w-tab__control");
     private By allCategories = By.cssSelector(".n-w-tabs__vertical-tabs>*");
     private By pathCategories = By.cssSelector(".n-w-tabs__horizontal-tabs>*");
-    public By accountIcon = By.xpath("/html/body/div[1]/div/div[1]/noindex/div/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/div[1]/a/span[1]");
+    private By logOutButton = By.cssSelector(".user__logout");
+    public By accountIcon = By.cssSelector(".header2-nav__user > a:nth-child(1)");
     private ArrayList<WebElement> categories;
 
     /**
-     * Инициализация WebDriver в конструкторе
-     * @throws IOException
+     * возвращает значение локатора для случайной страницы
+     *
+     * @return
      */
-    public MainPage() throws IOException {
-        Browser.getInstanceOfSingletonBrowserClass();
+    public By getTestRandomPageLocator() {
+        return testRandomPageLocator;
+    }
+
+    /**
+     * возвращае значение локатора для баннера
+     *
+     * @return
+     */
+    public By getTestBannerLocator() {
+        return testBannerLocator;
     }
 
     /**
      * метод считывания топ-категорий и возвращение списка эти категорий
+     *
      * @return
-     * @throws IOException
      */
-    public ArrayList<String> getCategories() throws IOException {
-        Browser.browserDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        categories = (ArrayList<WebElement>) Browser.browserDriver().findElements(pathCategories);
+    public ArrayList<String> getTopCategories() {
+        WebElementWait.waiterForWebElement(pathCategories);
+        categories = (ArrayList<WebElement>) Browser.getDriver().findElements(pathCategories);
         categories.trimToSize();
         ArrayList<String> listOfCategories = new ArrayList<String>();
         int j = 2;
@@ -51,51 +64,47 @@ public class MainPage {
 
     /**
      * метод выбора и нажатия на рандомную категорию
-     * @throws IOException
      */
-    public void goToRandomCategory() throws IOException {
-        categories.get(new Random().nextInt(((categories.size()-2)+1)+2)).click();
+    public void goToRandomCategory() {
+        categories.get(new Random().nextInt(((categories.size() - 2) + 1) + 2)).click();
     }
 
     /**
      * метод возвращения на главную страницу
-     * @throws IOException
      */
-    public void backToMainPage() throws IOException {
-        Browser.browserDriver().findElement(goToMainPage).click();
+    public void backToMainPage() {
+        Browser.getDriver().findElement(goToMainPage).click();
     }
 
     /**
      * метод нажатия на вкладку "Все категории"
-     * @throws IOException
      */
-    public void goToAllCategories() throws IOException {
-        Browser.browserDriver().findElement(allCategoriesButton).click();
+    public void goToAllCategories() {
+        Browser.getDriver().findElement(allCategoriesButton).click();
     }
 
     /**
      * метод записи в файл всех категорий маркета
+     *
      * @return список всех категорий
-     * @throws IOException
      */
-    public ArrayList<String> copyAllCategories() throws IOException {
-        ArrayList<WebElement> allCat = (ArrayList<WebElement>) Browser.browserDriver().findElements(allCategories);
+    public ArrayList<String> copyAllCategories() {
+        ArrayList<WebElement> allCat = (ArrayList<WebElement>) Browser.getDriver().findElements(allCategories);
         ArrayList<String> allCatString = new ArrayList<String>();
         for (WebElement webElement : allCat) {
             allCatString.add(webElement.getText());
         }
         CSVFileWrite csvFileWrite = new CSVFileWrite();
-        csvFileWrite.fileWrite(allCatString);
+        csvFileWrite.fileWrite(allCatString, filePath);
         return allCatString;
     }
 
     /**
-     * метод нажатия на иконку аккаунта
-     * @throws IOException
+     * выход из аккаунта
      */
-    public void logOutFunction() throws IOException {
-        Browser.browserDriver().findElement(accountIcon).click();
-        LogOutForm logOutForm = new LogOutForm(Browser.browserDriver());
+    public void logOutFunction() {
+        Browser.getDriver().findElement(accountIcon).click();
+        Browser.getDriver().findElement(logOutButton).click();
     }
 
 }

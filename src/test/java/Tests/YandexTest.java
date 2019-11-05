@@ -1,81 +1,84 @@
 package Tests;
 
-import Browser.Browser;
-import PageObjects.*;
-import org.openqa.selenium.By;
+import browser.Browser;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import pageObjects.GuestMainPage;
+import pageObjects.LogForm;
+import pageObjects.MainPage;
+import pageObjects.PasswordForm;
+import utils.PropertiesRead;
+import utils.WebElementWait;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class YandexTest {
     private GuestMainPage guestMainPage;
     private LogForm logForm;
     private PasswordForm passwordForm;
     private MainPage mainPage;
-    private By testRandomPageLocator = By.xpath("/html/body/div[1]/div[2]/div[6]/div/div/div/div/div/h1");
-    private By testBannerLocator = By.xpath("/html/body/div[1]/noindex/div/div/div/a/img");
-    private WebElementWait waiter;
+    private String password;
+    private String logIn;
 
     @BeforeTest
-    public void init() throws IOException {
-        Browser.getInstanceOfSingletonBrowserClass();
+    public void init() {
+        Browser.getInstance();
         guestMainPage = new GuestMainPage();
         logForm = new LogForm();
         passwordForm = new PasswordForm();
         mainPage = new MainPage();
-        waiter = new WebElementWait();
+        Browser.implicitlyWait();
+        Browser.goToUrl();
+        Browser.maximize();
+        password = PropertiesRead.readFromPropertiesFile("password");
+        logIn = PropertiesRead.readFromPropertiesFile("login");
     }
 
     /**
      * тестиует сайт market.yandex.ru
-     * @throws IOException
      * @throws InterruptedException
      */
     @Test
-    public void yandexMarketPageOpen() throws IOException, InterruptedException {
-        Browser.browserDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        Browser.goToUrl();
-        Browser.maximize();
-        WebElement testBanner = waiter.waiterForWebElement(testBannerLocator);
-        Assert.assertTrue(testBanner.isDisplayed());
+    public void yandexMarketPageOpen() throws InterruptedException {
+        WebElementWait.waiterForWebElement(mainPage.getTestBannerLocator());
+        WebElement testBanner = WebElementWait.getWebElement(mainPage.getTestBannerLocator());
+        Assert.assertTrue(testBanner.isDisplayed(),"Не удалось открыть страницу");
         guestMainPage.clickLogInButton();
-        ArrayList<String> tabs = new ArrayList<String>(Browser.browserDriver().getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<String>(Browser.getDriver().getWindowHandles());
         Browser.switchTo(tabs.size() - 1, tabs);
         Thread.sleep(5000);
-        logForm.logFormTyping();
+        logForm.enterLogIn(logIn);
         Thread.sleep(5000);
-        passwordForm.logFormTyping();
+        passwordForm.enterPassword(password);
         Browser.switchTo(0, tabs);
-        WebElement testAuthorizedIcon = waiter.waiterForWebElement(mainPage.accountIcon);
+        WebElementWait.waiterForWebElement(mainPage.accountIcon);
+        WebElement testAuthorizedIcon = WebElementWait.getWebElement(mainPage.accountIcon);
         Thread.sleep(5000);
-        Assert.assertTrue(testAuthorizedIcon.isDisplayed());
-        ArrayList<String> topCategories = mainPage.getCategories();
-        Thread.sleep(5000);
+        Assert.assertTrue(testAuthorizedIcon.isDisplayed(), "Не удалось авторизоваться");
+        ArrayList<String> topCategories = mainPage.getTopCategories();
         mainPage.goToRandomCategory();
-        WebElement testRandom = waiter.waiterForWebElement(testRandomPageLocator);
-        Assert.assertTrue(testRandom.isDisplayed());
+        WebElementWait.waiterForWebElement(mainPage.getTestRandomPageLocator());
+        WebElement testRandom = WebElementWait.getWebElement(mainPage.getTestRandomPageLocator());
+        Assert.assertTrue(testRandom.isDisplayed(),"Выбранная категория не загрузилась");
         mainPage.backToMainPage();
         mainPage.goToAllCategories();
         ArrayList<String> allCategories = mainPage.copyAllCategories();
         allCategories.retainAll(topCategories);
-        Assert.assertEquals(allCategories, topCategories);
+        Assert.assertEquals(allCategories, topCategories,"Список всех категорий не включает значения топ-категорий");
         mainPage.logOutFunction();
-        WebElement testLogInAgainButton = waiter.waiterForWebElement(guestMainPage.logIn);
-        Assert.assertTrue(testLogInAgainButton.isDisplayed());
+        WebElementWait.waiterForWebElement(guestMainPage.logIn);
+        WebElement testLogInAgainButton = WebElementWait.getWebElement(guestMainPage.logIn);
+        Assert.assertTrue(testLogInAgainButton.isDisplayed(),"Не удалось выйти");
     }
 
     /**
      * закрытие браузера
-     * @throws IOException
      */
     @AfterTest
-    public void browserClose() throws IOException {
+    public void browserClose() {
         Browser.close();
     }
 }
